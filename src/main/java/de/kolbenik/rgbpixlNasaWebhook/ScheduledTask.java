@@ -27,13 +27,7 @@ public class ScheduledTask implements Runnable {
                 webhook.setAvatarUrl(config.webhook().avatarUrl());
                 webhook.setUsername(config.webhook().username());
 
-                DiscordWebhook.EmbedObject embed = getAPOD();
-                if (embed == null) {
-                    Logger.getInstance().logException("",
-                            new NullPointerException("Embed object can not be null"), ScheduledTask.class.getSimpleName());
-                }
-
-                webhook.addEmbed(embed);
+                getAPOD(webhook);
                 webhook.execute();
             }
         } catch (IOException | URISyntaxException | InterruptedException e) {

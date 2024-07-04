@@ -81,6 +81,7 @@ public class DiscordWebhook {
                 jsonEmbed.put("description", embed.getDescription());
                 jsonEmbed.put("url", embed.getUrl());
 
+
                 if (embed.getColor() != null) {
                     Color color = embed.getColor();
                     int rgb = color.getRed();
@@ -189,11 +190,13 @@ public class DiscordWebhook {
         private String title;
         private String description;
         private String url;
+        private String type;
         private Color color;
 
         private Footer footer;
         private Thumbnail thumbnail;
         private Image image;
+        private Video video;
         private Author author;
         private List<Field> fields = new ArrayList<>();
 
@@ -206,6 +209,10 @@ public class DiscordWebhook {
         }
 
         public String getUrl() {
+            return url;
+        }
+
+        public String getType() {
             return url;
         }
 
@@ -248,6 +255,11 @@ public class DiscordWebhook {
             return this;
         }
 
+        public EmbedObject setType(String type) {
+            this.url = url;
+            return this;
+        }
+
         public EmbedObject setColor(Color color) {
             this.color = color;
             return this;
@@ -265,6 +277,16 @@ public class DiscordWebhook {
 
         public EmbedObject setImage(String url) {
             this.image = new Image(url);
+            return this;
+        }
+
+        public EmbedObject setVideo(String url, int width, int height) {
+            this.video = new Video(url, width, height);
+            return this;
+        }
+
+        public EmbedObject setVideo(String url) {
+            this.video = new Video(url);
             return this;
         }
 
@@ -365,6 +387,46 @@ public class DiscordWebhook {
 
             private boolean isInline() {
                 return inline;
+            }
+        }
+
+        private class Video {
+            private String url;
+            private int with;
+            private int height;
+
+            private Video(String url, int with, int height) {
+                this.url = url;
+                this.with = with;
+                this.height = height;
+            }
+
+            private Video(String url) {
+                this.url = url;
+            }
+
+            private String getUrl() {
+                return url;
+            }
+
+            private int getWith() {
+                return with;
+            }
+
+            private int getHeight() {
+                return height;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public void setWith(int with) {
+                this.url = url;
+            }
+
+            public void setHeight(int height) {
+                this.url = url;
             }
         }
     }

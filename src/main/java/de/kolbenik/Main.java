@@ -55,7 +55,7 @@ public class Main {
         }
     }
 
-    public static synchronized DiscordWebhook.EmbedObject getAPOD() {
+    public static synchronized void getAPOD(DiscordWebhook webhook) {
         try {
             URL url = new URL(config.nasaApi().apiUrl() + "?api_key=" + config.nasaApi().apiKey());
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -73,25 +73,31 @@ public class Main {
                 String copyright = object.has("copyright") ? object.get("copyright").getAsString().replaceAll("\n", "") : "";
                 String date = object.get("date").getAsString();
                 String title = object.get("title").getAsString();
-                String imageUrl = object.get("url").getAsString();
 
-                DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject()
-                        .setTitle(title)
-                        .setImage(imageUrl)
-                        .setFooter(date, "");
-                if (!copyright.isEmpty()) {
-                    embed.setDescription(copyright);
+                String mediaType = object.get("media_type").getAsString();
+                String mediaUrl = object.get("url").getAsString();
+
+                if (mediaType.equals("image")) {
+                    DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject()
+                            .setTitle(title)
+                            .setImage(mediaUrl)
+                            .setFooter(date, "");
+                    if (!copyright.isEmpty()) {
+                        embed.setDescription(copyright);
+                    }
+                    webhook.addEmbed(embed);
+                } else {
+                    webhook.setContent(mediaUrl);
                 }
 
-                return embed;
             }
 
         } catch (IOException e) {
             Logger.getInstance().logException(
                     "Exception while retrieving APOD image from NASA",
                     e, Main.class.getSimpleName());
+            webhook.addEmbed(new DiscordWebhook.EmbedObject().setDescription("Failed to retrieve data from NASA"));
         }
-        return new DiscordWebhook.EmbedObject().setDescription("Failed to retrieve data from NASA");
     }
 
 
