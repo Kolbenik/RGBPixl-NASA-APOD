@@ -1,10 +1,5 @@
 package de.kolbenik.rgbpixlNasaWebhook;
 
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import de.kolbenik.logging.Logger;
-
 import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Array;

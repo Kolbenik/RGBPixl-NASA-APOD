@@ -12,9 +12,11 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+
+ */
 
 public class Logger {
-    //public String FOLDER_PATH_LOGS = "logs/";
     public static final int LOG_FILE_DELETION_DAYS = 30;
 
     private static Logger instance;

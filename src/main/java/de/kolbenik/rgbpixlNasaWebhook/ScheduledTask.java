@@ -23,7 +23,7 @@ public class ScheduledTask implements Runnable {
                 String thread = config.webhook().threadId() > 0 ?  "?thread_id=" + config.webhook().threadId() : "";
 
                 webhook = new DiscordWebhook(config.webhook().webhookUrl() + thread);
-                webhook.setTts(false);
+                webhook.setTts(config.webhook().tts());
                 webhook.setAvatarUrl(config.webhook().avatarUrl());
                 webhook.setUsername(config.webhook().username());
 
@@ -36,6 +36,6 @@ public class ScheduledTask implements Runnable {
                     e, ScheduledTask.class.getSimpleName());
         }
 
-        System.out.println("fertig");
+        System.out.println("task completed");
     }
 }
